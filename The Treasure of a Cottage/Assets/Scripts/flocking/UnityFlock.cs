@@ -3,6 +3,9 @@ using System.Collections;
 
 public class UnityFlock : MonoBehaviour 
 {
+    // 캐릭터를 따라다니는 물고기 떼를 표현할 것이므로 리더를 없애고 물고기들을 캐릭터 하위에 두는 것으로 캐릭터를 따라 움직이게 할 수 있다
+    // 물고기들이 배를 따라 오는 모습을 표현하기 위해 avoidance 수치는 낮추고 follow 수치를 높였으며 활발하고 빠르게 움직이기 위해서 to origin 값을 높였다.
+
     public float minSpeed = 500.0f;         //movement speed of the flock
     public float turnSpeed = 100.0f;         //rotation speed of the flock
     public float randomFreq = 20.0f;        
@@ -163,7 +166,7 @@ public class UnityFlock : MonoBehaviour
 
         //Final Velocity to rotate the flock into
 	    velocity = Vector3.RotateTowards(velocity, wantedVel, turnSpeed * Time.deltaTime, 100.00f);
-	    //transformComponent.rotation = Quaternion.LookRotation(velocity);
+	    //transformComponent.rotation = Quaternion.LookRotation(velocity); // 적용하면 물고기가 자꾸 혼자 돌게 됨
     	
         //Move the flock based on the calculated velocity
 		transformComponent.Translate(velocity * Time.deltaTime, Space.World);

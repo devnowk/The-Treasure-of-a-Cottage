@@ -54,8 +54,9 @@ public class SimpleFSM : FSM
             print("Player doesn't exist.. Please add one with Tag named 'Player'");
 
         //Get the turret of the tank
-        turret = gameObject.transform;
-        bulletSpawnPoint = turret.GetChild(1).transform;
+        turret = gameObject.transform; // 유령에게 turret은 따로 없고 자기 자신이므로 turret = gameObject.transform;을 해준다.
+        bulletSpawnPoint = turret.GetChild(1).transform; // bulletSpawnPoint는 발사하는 지점이기 때문에 유령 하위에 만들어줘야 한다.
+
 	}
 
     //Update each frame
@@ -75,14 +76,16 @@ public class SimpleFSM : FSM
         //if (health <= 0)
             //curState = FSMState.Dead;
     }
-	protected void UpdateSleepState(){
+	protected void UpdateSleepState(){ // 잠자는 상태 추가 : 플레이어와의 거리 계산만 하고 아무일 하지 않는다.
+
 		if (Vector3.Distance (transform.position, playerTransform.position) <= awake) {
 			curState = FSMState.Awake;
 			destPos = transform.position;
 		}
 	}
 	RaycastHit hit;
-	protected void UpdateAwakeState(){
+	protected void UpdateAwakeState(){ // UpdateAwakeState()에서는 제자리에서 돌면서 플레이어가 시야에 있는 지 확인한다.
+
 		if (Vector3.Distance (transform.position, playerTransform.position) > awake) {
 			curState = FSMState.Sleep;
 		}else if (Vector3.Distance (transform.position, playerTransform.position) < attack) {
@@ -155,7 +158,8 @@ public class SimpleFSM : FSM
     /// <summary>
     /// Attack state
     /// </summary>
-    protected void UpdateAttackState()
+    protected void UpdateAttackState() // 가까워지면 UpdateAttackState() 상태가 되어 공격을 하기 시작한다
+
     {
         //Set the target position as the player position
         destPos = playerTransform.position;

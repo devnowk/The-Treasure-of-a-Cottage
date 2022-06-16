@@ -26,6 +26,7 @@ public class Bullet : MonoBehaviour
     {
 		if(collision.gameObject.tag == "Player"){
 			audio.PlayOneShot(touch);
+            // bullet을 맞으면 health가 깎이지 않고 respawn point로 이동하게된다.
 			collision.transform.position = GameObject.FindGameObjectWithTag("Respawn").transform.position;
 			this.GetComponent<Notice>().enabled = true;
 		}
